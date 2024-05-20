@@ -21,7 +21,7 @@ public class OrderLineItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    String skyCode;
+    String skuCode;
 
     Integer quantity;
 

@@ -7,9 +7,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>org.programming.techie</groupId>
-    <artifactId>productService</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <artifactId>Eureka-discovery-server</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -17,26 +15,24 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-mongodb</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-server -->
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <optional>true</optional>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
+            <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+
+
     </dependencies>
-
 </project>
-

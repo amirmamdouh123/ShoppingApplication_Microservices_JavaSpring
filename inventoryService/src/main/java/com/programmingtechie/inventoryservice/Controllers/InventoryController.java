@@ -1,24 +1,21 @@
 package com.programmingtechie.inventoryservice.Controllers;
 
 
-import com.programmingtechie.inventoryservice.Entities.Inventory;
-import com.programmingtechie.inventoryservice.Services.InventoryService;
-import com.programmingtechie.inventoryservice.Entities.Inventory;
+import com.programmingtechie.inventoryservice.Entities.InventoryItem;
 import com.programmingtechie.inventoryservice.Services.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.naming.NameNotFoundException;
 import java.util.List;
-import java.util.UUID;
+import java.util.logging.Logger;
 
 
 @RestController
-@RequestMapping("inventory")
+@RequestMapping("/api/inventory")
 public class InventoryController {
 
-
+Logger logger = Logger.getLogger("InventoryController");
     @Autowired
     InventoryService inventoryService;
 
@@ -29,9 +26,9 @@ public class InventoryController {
     }
 
     @PostMapping
-    public ResponseEntity insertOrder(@RequestBody Inventory orderRequest){
-
-        Inventory prod = inventoryService.createOrder(orderRequest);
+    public ResponseEntity insertInventoryITem(@RequestBody InventoryItem inventoryItem){
+        System.out.println("start");
+        InventoryItem prod = inventoryService.createOrder(inventoryItem);
         return ResponseEntity.ok(prod);
     }
 
@@ -48,6 +45,7 @@ public class InventoryController {
 
     @GetMapping("/isInStock")    //localhost:port?skuCode=fdaf&skuCode=rqewrf....
     public ResponseEntity isInStock(@RequestParam("skuCode") List<String> skuCodes){
+        System.out.println("start checkInventoryItems");
         return ResponseEntity.ok(inventoryService.isAllInStock(skuCodes));
     }
 

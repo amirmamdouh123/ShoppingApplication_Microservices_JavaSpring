@@ -10,16 +10,18 @@ import com.programmingtechie.orderservice.Services.OrderService;
 
 import javax.naming.NameNotFoundException;
 import java.util.UUID;
+import java.util.logging.Logger;
 
 
 @RestController
-@RequestMapping("order")
+@RequestMapping("/api/order")
 public class OrderController {
 
 
     @Autowired
     OrderService orderService;
 
+    Logger logger=Logger.getLogger("OrderController");
 
     @GetMapping
     public ResponseEntity getAllOrders(){

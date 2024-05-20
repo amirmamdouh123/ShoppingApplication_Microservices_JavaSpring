@@ -18,26 +18,27 @@ import java.util.logging.Logger;
 @Service
 public class OrderService {
 
-    Logger logger=Logger.getLogger("ProductService");
+    Logger logger=Logger.getLogger("OrderService");
 
     @Autowired
     OrderRepo orderRepo;
-    @Autowired
-    OrderLineItemService orderLineItemService;
 
     @Autowired
-    WebClient webClient;
+    WebClient.Builder webClientBuilder;
 
 
     @Transactional
     public Order createOrder(Order orderRequest) throws IllegalAccessException {
 //        logger.info("order: " + orderRequest);
 
-        List<String> SkyCodesList= getSkuCodesFromOrder(orderRequest);
+          List<String> SkyCodesList= getSkuCodesFromOrder(orderRequest);
+
 //        String skuCodeURL= ReformatSkuCodesToURL(SkyCodesList);
             //check order items inside Inventory
-            List<CheckItemResponse> CheckedItem = webClient.get().uri("http://localhost:8082/inventory/isInStock",
-                            uriBuilder -> uriBuilder.queryParam("skuCode",SkyCodesList).build())
+        //http://inventory-service/inventory/isInStock?skuCode=product1&skuCode=product2
+            List<CheckItemResponse> CheckedItem = webClientBuilder.build().get().uri("http://inventory-service/api/inventory/isInStock"
+                            ,uriBuilder -> uriBuilder.queryParam("skuCode",SkyCodesList).build()
+                           )
                     .retrieve()
                     .bodyToMono(new ParameterizedTypeReference<List<CheckItemResponse>>(){})
                     .block();
@@ -45,8 +46,10 @@ public class OrderService {
 //            if (isInStock == null || !isInStock) {
 //                throw new IllegalStateException("Items are not available in inventory: " + item.getSkyCode());
 //
+                logger.info("CheckedItem: " + CheckedItem);
+
         assert CheckedItem != null;
-        Boolean isAllSkuCodesAvailable = CheckedItem.stream().allMatch(CheckItemResponse::getIsInStock); // list of boolean make AND between all values of stream
+        boolean isAllSkuCodesAvailable = CheckedItem.stream().allMatch(CheckItemResponse::getIsInStock); // list of boolean make AND between all values of stream
 
 
         if(isAllSkuCodesAvailable){
@@ -71,7 +74,7 @@ public class OrderService {
 
 
     public List<String> getSkuCodesFromOrder(Order orderRequest) throws IllegalAccessException {
-        return orderRequest.getOrderLineItems().stream().map(OrderLineItem::getSkyCode).toList();
+        return orderRequest.getOrderLineItems().stream().map(OrderLineItem::getSkuCode).toList();
     }
 
 //    String ReformatSkuCodesToURL(List<String> skuCodes) throws IllegalAccessException {

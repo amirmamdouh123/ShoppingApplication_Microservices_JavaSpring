@@ -11,7 +11,7 @@ import lombok.*;
 @Getter
 @Setter
 @Data
-public class Inventory {
+public class InventoryItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
