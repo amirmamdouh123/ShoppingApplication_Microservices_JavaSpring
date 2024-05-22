@@ -3,6 +3,7 @@ package com.programmingtechie.inventoryservice.Controllers;
 
 import com.programmingtechie.inventoryservice.Entities.InventoryItem;
 import com.programmingtechie.inventoryservice.Services.InventoryService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,8 +45,11 @@ Logger logger = Logger.getLogger("InventoryController");
 //    }
 
     @GetMapping("/isInStock")    //localhost:port?skuCode=fdaf&skuCode=rqewrf....
+    @SneakyThrows
     public ResponseEntity isInStock(@RequestParam("skuCode") List<String> skuCodes){
-        System.out.println("start checkInventoryItems");
+        System.out.println("start Wait 5s");
+        Thread.sleep(5000);
+        System.out.println("end Wait 5s");
         return ResponseEntity.ok(inventoryService.isAllInStock(skuCodes));
     }
 

@@ -16,7 +16,9 @@
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-    </properties>
+		<spring.cloud.sleuth>3.1.11</spring.cloud.sleuth>
+
+	</properties>
 
 <dependencies>
 		<dependency>
@@ -59,7 +61,39 @@
 		<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
 	</dependency>
 
-	</dependencies>
+	<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-eureka-client -->
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-circuitbreaker-resilience4j -->
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+	</dependency>
+
+	<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-webflux -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-actuator</artifactId>
+	</dependency>
+
+
+	<!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-sleuth -->
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-starter-sleuth</artifactId>
+		<version>${spring.cloud.sleuth}</version>
+	</dependency>
+
+	<dependency>
+		<groupId>org.springframework.cloud</groupId>
+		<artifactId>spring-cloud-sleuth-zipkin</artifactId>
+		<version>${spring.cloud.sleuth}</version>
+	</dependency>
+
+</dependencies>
 
 	<build>
 		<plugins>

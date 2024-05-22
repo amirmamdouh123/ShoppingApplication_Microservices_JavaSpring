@@ -4,6 +4,7 @@ import com.programmingtechie.orderservice.DTOS.CheckItemResponse;
 import com.programmingtechie.orderservice.Entities.Order;
 import com.programmingtechie.orderservice.Entities.OrderLineItem;
 import com.programmingtechie.orderservice.Repos.OrderRepo;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -28,11 +29,10 @@ public class OrderService {
 
 
     @Transactional
-    public Order createOrder(Order orderRequest) throws IllegalAccessException {
+    public Order createOrder(Order orderRequest) {
 //        logger.info("order: " + orderRequest);
 
           List<String> SkyCodesList= getSkuCodesFromOrder(orderRequest);
-
 //        String skuCodeURL= ReformatSkuCodesToURL(SkyCodesList);
             //check order items inside Inventory
         //http://inventory-service/inventory/isInStock?skuCode=product1&skuCode=product2
@@ -57,9 +57,13 @@ public class OrderService {
                 item.setOrder(orderRequest);     //store each OrederLineItem
             });
             return orderRepo.save(orderRequest);  //store the Order
+        }else {
+            String NotFoundItems = getAllNotFoundSkuCodesInString(CheckedItem);
+            //throw new Exception(NotFoundItems + "SkuCode is not exist in the Inventory");
+            Order order = new Order();
+            order.setOrderNumber(NotFoundItems + "SkuCode is not exist in the Inventory");
+            return order;
         }
-        String NotFoundItems = getAllNotFoundSkuCodesInString(CheckedItem);
-        throw new IllegalAccessException(NotFoundItems +"SkuCode is not exist in the Inventory");
     }
 
     String getAllNotFoundSkuCodesInString(List<CheckItemResponse> checkedItems){
@@ -73,7 +77,7 @@ public class OrderService {
     };
 
 
-    public List<String> getSkuCodesFromOrder(Order orderRequest) throws IllegalAccessException {
+    public List<String> getSkuCodesFromOrder(Order orderRequest) {
         return orderRequest.getOrderLineItems().stream().map(OrderLineItem::getSkuCode).toList();
     }
 
